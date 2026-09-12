@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v10.1.0
+        with:
+          python-version: "3.14"
+          enable-cache: true
+
+      - name: Install the project
+        run: uv sync --locked
+
+      - name: Run tests
+        run: uv run pytest -q
+
+      # Note: 'jpml fmt' is deliberately not enforced here -- rewriting a file
+      # drops its comments, so formatting stays a manual choice.
+      - name: Validate the bundled .jp files
+        shell: bash
+        run: uv run jpml check data/*.jp

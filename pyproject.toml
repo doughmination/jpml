@@ -1,0 +1,38 @@
+[project]
+name = "jpml"
+version = "1.0.0"
+description = "A hybrid JSON/TOML configuration language (.jp files)"
+readme = "README.md"
+authors = [
+    { name = "Clove Twilight", email = "admin@doughmination.win" }
+]
+requires-python = ">=3.14"
+dependencies = []
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["config", "configuration", "parser", "toml", "json", "jp", "jpml"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: File Formats",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/doughmination/jpml"
+Repository = "https://github.com/doughmination/jpml"
+Issues = "https://github.com/doughmination/jpml/issues"
+
+[project.scripts]
+jpml = "jpml.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = ["pytest>=8"]
