@@ -1,7 +1,7 @@
 # jpml
 
 [![CI](https://github.com/doughmination/jpml/actions/workflows/ci.yml/badge.svg)](https://github.com/doughmination/jpml/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/jpml.svg)](https://pypi.org/project/jpml/)
+[![PyPI](https://img.shields.io/pypi/v/jpml)](https://pypi.org/project/jpml/)
 
 **A configuration language that borrows TOML's sections and JSON's nesting.**
 
