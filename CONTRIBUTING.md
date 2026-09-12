@@ -54,9 +54,9 @@ Publishing** (OIDC), so there are no API tokens or repository secrets to manage.
 
 ### One-time setup
 
-1. Create two GitHub environments under **Settings → Environments**: `pypi` and
-   `testpypi`. Adding a required reviewer to `pypi` gives a manual approval gate
-   before anything is published.
+1. Create a GitHub environment named `pypi` under
+   **Settings → Environments**. Adding a required reviewer to it gives a manual
+   approval gate before anything is published.
 2. Add a *pending publisher* at <https://pypi.org/manage/account/publishing/>:
 
    | Field | Value |
@@ -66,9 +66,6 @@ Publishing** (OIDC), so there are no API tokens or repository secrets to manage.
    | Repository name | `jpml` |
    | Workflow name | `publish.yml` |
    | Environment name | `pypi` |
-
-3. Repeat at <https://test.pypi.org/manage/account/publishing/> with the
-   environment name `testpypi`.
 
 ### Cutting a release
 
@@ -85,7 +82,12 @@ runs the tests, checks that the tag matches the version in `pyproject.toml`,
 builds an sdist and a wheel, verifies the metadata with `twine check --strict`,
 and uploads to PyPI with [PEP 740 attestations][attestations].
 
-To rehearse without touching PyPI, run the workflow manually:
-**Actions → Publish → Run workflow → target: `testpypi`**.
+The tag must match the version exactly — `version = "1.1.1"` needs the tag
+`v1.1.1`, or the build fails before anything is uploaded.
+
+If an upload fails after the artifacts were built, re-run the workflow from
+**Actions → Publish → Run workflow**. Note that PyPI refuses to overwrite a
+version that already exists, so a partially published release needs a version
+bump rather than a retry.
 
 [attestations]: https://peps.python.org/pep-0740/

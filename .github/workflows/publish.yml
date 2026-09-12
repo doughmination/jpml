@@ -1,19 +1,15 @@
 name: Publish
 
 # Publishes to PyPI with Trusted Publishing (OIDC) -- there are no API tokens
-# or repository secrets to manage.  See "Releasing" in the README for the
+# or repository secrets to manage.  See "Releasing" in CONTRIBUTING.md for the
 # one-time PyPI setup this expects.
+#
+# Runs on a published GitHub Release, or manually to retry a failed upload.
 
 on:
   release:
     types: [published]
   workflow_dispatch:
-    inputs:
-      target:
-        description: Index to publish to
-        type: choice
-        options: [testpypi, pypi]
-        default: testpypi
 
 permissions: {}
 
@@ -62,33 +58,9 @@ jobs:
           path: dist/
           if-no-files-found: error
 
-  testpypi:
-    name: Publish to TestPyPI
-    needs: build
-    if: github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi'
-    runs-on: ubuntu-latest
-    environment:
-      name: testpypi
-      url: https://test.pypi.org/p/jpml
-    permissions:
-      id-token: write   # mints the OIDC token PyPI trusts
-      contents: read
-      actions: read     # lets download-artifact fetch the build output
-
-    steps:
-      - uses: actions/download-artifact@v8
-        with:
-          name: dist
-          path: dist/
-
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
-
   pypi:
     name: Publish to PyPI
     needs: build
-    if: github.event_name == 'release' || inputs.target == 'pypi'
     runs-on: ubuntu-latest
     environment:
       name: pypi
