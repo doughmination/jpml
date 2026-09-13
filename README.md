@@ -1,4 +1,6 @@
-# jpml
+# jpml-py
+
+Python package for JPML
 
 [![CI](https://github.com/doughmination/jpml/actions/workflows/ci.yml/badge.svg)](https://github.com/doughmination/jpml/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/jpml)](https://pypi.org/project/jpml/)
